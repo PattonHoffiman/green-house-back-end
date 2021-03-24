@@ -11,6 +11,11 @@ export default class SessionsController {
 
     const { user, token } = await authenticateUser.execute({ email, password });
 
-    return res.status(200).send({ token, user: classToClass(user) });
+    return res.status(200).send({
+      token,
+      status: 'success',
+      user: classToClass(user),
+      message: `Welcome ${user.name}`,
+    });
   }
 }
