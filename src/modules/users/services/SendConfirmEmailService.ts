@@ -49,7 +49,7 @@ export default class SendConfirmEmailService {
       templateData: {
         variables: {
           name: user.name,
-          link: `${process.env.APP_WEB_URL}/confirm_email?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/confirm-email?token=${token}`,
         },
         file: confirmEmailTemplate,
       },
