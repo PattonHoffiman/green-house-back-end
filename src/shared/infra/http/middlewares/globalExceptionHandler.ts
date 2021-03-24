@@ -10,7 +10,7 @@ export default function globalExceptionHandler(
 ): Response {
   if (err instanceof AppError) {
     return res.status(err.statusCode).send({
-      status: 'Error',
+      status: 'error',
       message: err.message,
     });
   }
