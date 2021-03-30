@@ -33,7 +33,7 @@ export default class ProfileController {
     const deleteUser = container.resolve(DeleteUserService);
     await deleteUser.execute(id);
 
-    return res.status(204).send({
+    return res.status(200).send({
       status: 'success',
       message: "Successfully user's account deleted",
     });

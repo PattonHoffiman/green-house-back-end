@@ -6,7 +6,7 @@ import UpdateUserPasswordService from '@modules/users/services/UpdateUserPasswor
 
 export default class ProfilePasswordController {
   public async update(req: Request, res: Response): Promise<Response> {
-    const { id } = req.body;
+    const { id } = req.user;
     const { password, new_password, confirm_password } = req.body;
     const updateUserPassword = container.resolve(UpdateUserPasswordService);
 
