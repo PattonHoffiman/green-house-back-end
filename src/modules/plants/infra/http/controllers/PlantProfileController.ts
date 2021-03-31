@@ -21,9 +21,11 @@ export default class PlantProfileController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const data = req.body;
+    const { id } = req.user;
     const { plant_id } = req.params;
     const updatePlant = container.resolve(UpdatePlantService);
     const updatedPlant = await updatePlant.execute({
+      user_id: id,
       id: plant_id,
       name: data.name,
       days_to_water: data.days_to_water,
@@ -37,9 +39,10 @@ export default class PlantProfileController {
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.user;
     const { plant_id } = req.params;
     const deletePlant = container.resolve(DeletePlantService);
-    await deletePlant.execute(plant_id);
+    await deletePlant.execute(plant_id, id);
 
     return res.status(200).send({
       status: 'success',

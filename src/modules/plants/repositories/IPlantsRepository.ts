@@ -11,5 +11,5 @@ export default interface IPlantRepository {
     name: string,
     days_to_water: number,
     water_day: Date,
-  ): Promise<void>;
+  ): Promise<Plant>;
 }

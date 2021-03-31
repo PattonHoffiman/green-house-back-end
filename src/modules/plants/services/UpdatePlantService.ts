@@ -1,16 +1,20 @@
 import { addDays } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import AppError from '@shared/errors/AppError';
 
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import Plant from '../infra/typeorm/entities/Plant';
 import IPlantsRepository from '../repositories/IPlantsRepository';
-
 import IUpdatePlantDTO from '../dtos/IUpdatePlantDTO';
 
 @injectable()
 export default class UpdatePlantService {
   constructor(
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
+
     @inject('PlantsRepository')
     private plantsRepository: IPlantsRepository,
   ) {}
@@ -18,8 +22,10 @@ export default class UpdatePlantService {
   public async execute({
     id,
     name,
+    user_id,
     days_to_water,
   }: IUpdatePlantDTO): Promise<Plant> {
+    const cacheKey = `user-plants:${user_id}`;
     const plant = await this.plantsRepository.findById(id);
 
     if (!plant) throw new AppError('This plant does not exists!', 400);
@@ -34,6 +40,25 @@ export default class UpdatePlantService {
     }
 
     await this.plantsRepository.save(plant);
+
+    const plants = await this.cacheProvider.recover<Plant[]>(cacheKey);
+
+    if (plants) {
+      const updatedPlants = plants.map(plantArray => {
+        if (plantArray.id === plant.id) {
+          plantArray.name = plant.name;
+          plantArray.water_day = plant.water_day;
+          plantArray.updated_at = plant.updated_at;
+          plantArray.days_to_water = plant.days_to_water;
+        }
+
+        return plantArray;
+      });
+
+      await this.cacheProvider.invalidate(cacheKey);
+      await this.cacheProvider.save(cacheKey, classToClass(updatedPlants));
+    }
+
     return plant;
   }
 }

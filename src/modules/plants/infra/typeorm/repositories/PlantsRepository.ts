@@ -44,7 +44,7 @@ export default class PlantsRepository implements IPlantRepository {
     name: string,
     days_to_water: number,
     water_day: Date,
-  ): Promise<void> {
+  ): Promise<Plant> {
     const newPlant = this.ormRepository.create({
       user_id,
       name,
@@ -53,5 +53,6 @@ export default class PlantsRepository implements IPlantRepository {
     });
 
     await this.ormRepository.save(newPlant);
+    return newPlant;
   }
 }

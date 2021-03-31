@@ -6,12 +6,14 @@ import UpdatePlantAvatarService from '@modules/plants/services/UpdatePlantAvatar
 
 export default class PlantAvatarController {
   public async update(req: Request, res: Response): Promise<Response> {
-    const { plant_id } = req.params;
+    const { id } = req.user;
     const { filename } = req.file;
+    const { plant_id } = req.params;
     const updateAvatar = container.resolve(UpdatePlantAvatarService);
 
     const plant = await updateAvatar.execute({
       plant_id,
+      user_id: id,
       avatar_filename: filename,
     });
 
