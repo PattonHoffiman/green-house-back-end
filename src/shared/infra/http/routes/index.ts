@@ -8,6 +8,7 @@ import userAvatarRoutes from '@modules/users/infra/http/routes/avatar.routes';
 import userProfileRoutes from '@modules/users/infra/http/routes/profile.routes';
 import plantsAvatarRoutes from '@modules/plants/infra/http/routes/avatar.routes';
 import plantsProfileRoutes from '@modules/plants/infra/http/routes/profile.routes';
+import plantNotificationsRoutes from '@modules/plants/infra/http/routes/notifications.routes';
 
 const routes = Router();
 routes.use('/users', usersRoutes);
@@ -19,5 +20,6 @@ routes.use('/users/profile', userProfileRoutes);
 routes.use('/plants/profile', plantsProfileRoutes);
 routes.use('/users/profile/avatar', userAvatarRoutes);
 routes.use('/plants/profile/avatar', plantsAvatarRoutes);
+routes.use('/plants/notifications', plantNotificationsRoutes);
 
 export default routes;

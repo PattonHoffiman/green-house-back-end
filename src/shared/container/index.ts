@@ -12,9 +12,17 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import IPlantsRepository from '@modules/plants/repositories/IPlantsRepository';
 import PlantsRepository from '@modules/plants/infra/typeorm/repositories/PlantsRepository';
 
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
+);
+
+container.registerSingleton<IPlantsRepository>(
+  'PlantsRepository',
+  PlantsRepository,
 );
 
 container.registerSingleton<IUserTokensRepository>(
@@ -22,7 +30,7 @@ container.registerSingleton<IUserTokensRepository>(
   UserTokensRepository,
 );
 
-container.registerSingleton<IPlantsRepository>(
-  'PlantsRepository',
-  PlantsRepository,
+container.registerSingleton<INotificationsRepository>(
+  'NotificationsRepository',
+  NotificationsRepository,
 );

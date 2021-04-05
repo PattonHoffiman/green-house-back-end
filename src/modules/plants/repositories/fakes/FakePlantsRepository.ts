@@ -43,7 +43,7 @@ export default class FakePlantsRepository implements IPlantsRepository {
     name: string,
     days_to_water: number,
     water_day: Date,
-  ): Promise<void> {
+  ): Promise<Plant> {
     const plant = new Plant();
 
     Object.assign(plant, {
@@ -58,5 +58,6 @@ export default class FakePlantsRepository implements IPlantsRepository {
     });
 
     this.plants.push(plant);
+    return plant;
   }
 }

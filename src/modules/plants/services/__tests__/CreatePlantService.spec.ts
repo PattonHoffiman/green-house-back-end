@@ -4,10 +4,12 @@ import { addDays, format } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import CreatePlantService from '../CreatePlantService';
 import FakePlantsRepository from '../../repositories/fakes/FakePlantsRepository';
 
 let createPlant: CreatePlantService;
+let fakeCacheProvider: FakeCacheProvider;
 let fakeUsersRepository: FakeUsersRepository;
 let fakePlantsRepository: FakePlantsRepository;
 
@@ -16,6 +18,7 @@ describe('Create Plant Service', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakePlantsRepository = new FakePlantsRepository();
     createPlant = new CreatePlantService(
+      fakeCacheProvider,
       fakeUsersRepository,
       fakePlantsRepository,
     );

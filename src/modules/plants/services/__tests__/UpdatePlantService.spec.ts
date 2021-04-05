@@ -2,16 +2,21 @@ import 'reflect-metadata';
 
 import { addDays, format } from 'date-fns';
 import AppError from '@shared/errors/AppError';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import UpdatePlantService from '../UpdatePlantService';
 import FakePlantsRepository from '../../repositories/fakes/FakePlantsRepository';
 
 let updatePlant: UpdatePlantService;
+let fakeCacheProvider: FakeCacheProvider;
 let fakePlantsRepository: FakePlantsRepository;
 
 describe('Update Plant Service', () => {
   beforeEach(() => {
     fakePlantsRepository = new FakePlantsRepository();
-    updatePlant = new UpdatePlantService(fakePlantsRepository);
+    updatePlant = new UpdatePlantService(
+      fakeCacheProvider,
+      fakePlantsRepository,
+    );
   });
 
   it('should be able to update a plant', async () => {
@@ -32,6 +37,7 @@ describe('Update Plant Service', () => {
         id: plant.id,
         name: 'Fredy',
         days_to_water: 2,
+        user_id: 'user-id',
       });
 
       expect(updatedPlant.name).toEqual('Fredy');
@@ -46,6 +52,7 @@ describe('Update Plant Service', () => {
         id: 'fake-id',
         name: 'Fredy',
         days_to_water: 2,
+        user_id: 'fake-user-id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -68,6 +75,7 @@ describe('Update Plant Service', () => {
         id: plant.id,
         name: 'Fredy',
         days_to_water: 3,
+        user_id: 'user_id',
       });
 
       const formattedWaterDay = format(addDays(today, 3), 'dd/MM/yyyy');

@@ -4,10 +4,12 @@ import { addDays } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakePlantsRepository from '../../repositories/fakes/FakePlantsRepository';
 
 import UpdatePlantAvatarService from '../UpdatePlantAvatarService';
 
+let fakeCacheProvider: FakeCacheProvider;
 let fakeStorageProvider: FakeStorageProvider;
 let fakePlantsRepository: FakePlantsRepository;
 let updatePlantAvatar: UpdatePlantAvatarService;
@@ -17,6 +19,7 @@ describe('Update Plant Avatar Service', () => {
     fakeStorageProvider = new FakeStorageProvider();
     fakePlantsRepository = new FakePlantsRepository();
     updatePlantAvatar = new UpdatePlantAvatarService(
+      fakeCacheProvider,
       fakeStorageProvider,
       fakePlantsRepository,
     );
@@ -32,6 +35,7 @@ describe('Update Plant Avatar Service', () => {
 
     if (plant) {
       const updatedPlant = await updatePlantAvatar.execute({
+        user_id: 'user-id',
         plant_id: plant.id,
         avatar_filename: 'avatar.jpeg',
       });
@@ -54,11 +58,13 @@ describe('Update Plant Avatar Service', () => {
 
     if (plant) {
       await updatePlantAvatar.execute({
+        user_id: 'user-id',
         plant_id: plant.id,
         avatar_filename: 'avatar.jpeg',
       });
 
       await updatePlantAvatar.execute({
+        user_id: 'user-id',
         plant_id: plant.id,
         avatar_filename: 'avatar2.jpeg',
       });
@@ -75,6 +81,7 @@ describe('Update Plant Avatar Service', () => {
       updatePlantAvatar.execute({
         plant_id: 'non-existent-id',
         avatar_filename: 'avatar.jpg',
+        user_id: 'non-existent-user-id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
