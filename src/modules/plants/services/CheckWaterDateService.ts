@@ -70,7 +70,7 @@ export default class CheckWaterDateService {
           const notification = await this.notificationsRepository.create({
             read: false,
             recipient_id: plant.user_id,
-            content: `Don't forgot to water ${plant.name} today! [${plant.water_day}])`,
+            content: `Don't forgot to water ${plant.name} today! [${plant.water_day}]`,
           });
 
           return notification;

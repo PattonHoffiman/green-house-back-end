@@ -18,6 +18,7 @@ export default class UpdateNotificationService {
     if (!notification)
       throw new AppError('This notification does not exists!', 400);
 
+    notification.read = true;
     await this.notificationsRepository.update(notification);
   }
 }

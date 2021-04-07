@@ -1,4 +1,4 @@
-import { ObjectID } from 'mongodb';
+import { ObjectID, ObjectId } from 'mongodb';
 import { getMongoRepository, MongoRepository } from 'typeorm';
 
 import ICreateNotificationDTO from '@modules/notifications/dtos/ICreateNotificationDTO';
@@ -18,7 +18,11 @@ export default class NotificationsRepository
   }
 
   public async findById(id: ObjectID): Promise<Notification | undefined> {
-    const notification = await this.ormRepository.findOne({ where: { id } });
+    const o_id = new ObjectId(id);
+    const notification = await this.ormRepository.findOne({
+      where: { _id: o_id },
+    });
+
     return notification;
   }
 
