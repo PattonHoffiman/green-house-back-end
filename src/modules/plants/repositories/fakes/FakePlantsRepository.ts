@@ -17,6 +17,10 @@ export default class FakePlantsRepository implements IPlantsRepository {
     this.plants = updatedPlants;
   }
 
+  public async saveAll(plants: Plant[]): Promise<void> {
+    this.plants = plants;
+  }
+
   public async findById(id: string): Promise<Plant | undefined> {
     const plant = this.plants.find(plant => plant.id === id);
     return plant;

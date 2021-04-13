@@ -9,6 +9,7 @@ import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICa
 
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import Notification from '@modules/notifications/infra/typeorm/schemas/Notification';
+import formatWaterDate from '../utils/formatWaterDate';
 import IPlantsRepository from '../repositories/IPlantsRepository';
 
 import Plant from '../infra/typeorm/entities/Plant';
@@ -30,6 +31,8 @@ export default class CheckWaterDateService {
   ) {}
 
   public async execute(user_id: string): Promise<Notification[] | null> {
+    const today = new Date();
+
     const existentNotifications = await this.notificationsRepository.findAllByRecipientId(
       user_id,
     );
@@ -39,10 +42,38 @@ export default class CheckWaterDateService {
         notification => notification.read === false,
       );
 
-      if (falseReadNotifications.length !== 0) return falseReadNotifications;
+      const todayTrueReadNotifications = existentNotifications.filter(
+        notification => {
+          const created_at = new Date(notification.created_at);
+
+          if (
+            notification.read === true &&
+            today.getUTCDate() === created_at.getUTCDate() &&
+            today.getMonth() + 1 === created_at.getMonth() + 1
+          )
+            return notification;
+        },
+      );
+
+      if (
+        falseReadNotifications.length !== 0 &&
+        todayTrueReadNotifications.length !== 0
+      )
+        return falseReadNotifications;
+
+      if (
+        falseReadNotifications.length === 0 &&
+        todayTrueReadNotifications.length !== 0
+      )
+        return null;
+
+      if (
+        falseReadNotifications.length !== 0 &&
+        todayTrueReadNotifications.length === 0
+      )
+        return falseReadNotifications;
     }
 
-    const today = new Date();
     let plants: Plant[] | null | undefined;
     const user = await this.usersRepository.findById(user_id);
 
@@ -62,15 +93,17 @@ export default class CheckWaterDateService {
       const formatToday = format(today, 'yyyy-MM-dd');
 
       const plantsToWater = plants.filter(plant => {
-        if (formatToday === plant.water_day.toString()) return plant;
+        const water_day = formatWaterDate(plant.water_day);
+        if (formatToday === water_day) return plant;
       });
 
       const notifications = Promise.all(
         plantsToWater.map(async plant => {
+          const water_day = formatWaterDate(plant.water_day);
           const notification = await this.notificationsRepository.create({
             read: false,
             recipient_id: plant.user_id,
-            content: `Don't forgot to water ${plant.name} today! [${plant.water_day}]`,
+            content: `Don't forgot to water ${plant.name} today! [${water_day}]`,
           });
 
           return notification;

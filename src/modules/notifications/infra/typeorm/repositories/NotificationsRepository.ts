@@ -17,6 +17,10 @@ export default class NotificationsRepository
     await this.ormRepository.save(notification);
   }
 
+  public async remove(notifications: Notification[]): Promise<void> {
+    await this.ormRepository.remove(notifications);
+  }
+
   public async findById(id: ObjectID): Promise<Notification | undefined> {
     const o_id = new ObjectId(id);
     const notification = await this.ormRepository.findOne({

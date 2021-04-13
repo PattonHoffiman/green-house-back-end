@@ -21,6 +21,16 @@ export default class NotificationsRepository
     this.notifications = updatedNotifications;
   }
 
+  public async remove(notifications: Notification[]): Promise<void> {
+    const fake = notifications;
+    let updatedNotifications = this.notifications.filter(
+      notification => notification.read === false,
+    );
+
+    this.notifications = updatedNotifications;
+    updatedNotifications = fake;
+  }
+
   public async findById(id: ObjectID): Promise<Notification | undefined> {
     const notification = this.notifications.find(
       notificationArray => notificationArray.id === id,

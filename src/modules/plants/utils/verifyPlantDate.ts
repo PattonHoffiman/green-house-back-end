@@ -7,7 +7,6 @@ interface IResponse {
 }
 
 export default function verifyPlantDate(
-  water_day: Date,
   created_day: Date,
   days_to_water: number,
 ): IResponse {

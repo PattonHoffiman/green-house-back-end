@@ -18,6 +18,10 @@ export default class PlantsRepository implements IPlantRepository {
     await this.ormRepository.delete(id);
   }
 
+  public async saveAll(plants: Plant[]): Promise<void> {
+    await this.ormRepository.save(plants);
+  }
+
   public async findById(id: string): Promise<Plant | undefined> {
     const plant = await this.ormRepository.findOne(id);
     return plant;
