@@ -1,18 +1,32 @@
-{
-  "port": 5432,
-  "type": "postgres",
-  "host": "localhost",
-  "password": "your-password",
-  "username": "your-username",
-  "database": "your-database",
-  "migrations": [
-    "./src/shared/infra/typeorm/migrations/*.ts"
-  ],
-  "entities": [
-    "./src/modules/**/infra/typeorm/entities/*.ts"
-  ],
-  "cli": {
-    "entitiesDir": "./src/modules/**/infra/typeorm/entities",
-    "migrationsDir": "./src/shared/infra/typeorm/migrations"
+[
+  {
+    "port": 5432,
+    "name": "default",
+    "type": "postgres",
+    "host": "localhost",
+    "password": "your-password",
+    "username": "your-username",
+    "database": "your-database",
+    "migrations": [
+      "./src/shared/infra/typeorm/migrations/*.ts"
+    ],
+    "entities": [
+      "./src/modules/**/infra/typeorm/entities/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "./src/modules/**/infra/typeorm/entities",
+      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+    }
+  },
+  {
+    "port": 27017,
+    "name": "mongo",
+    "type": "mongodb",
+    "host": "localhost",
+    "database": "your-database",
+    "useUnifiedTopology": true,
+    "entities": [
+      "./src/modules/**/infra/typeorm/schemas/*.ts"
+    ]
   }
-}
+]
