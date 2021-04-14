@@ -8,6 +8,7 @@ interface IResponse {
 
 export default function verifyPlantDate(
   created_day: Date,
+  updated_day: Date,
   days_to_water: number,
 ): IResponse {
   const today = new Date();
@@ -26,7 +27,10 @@ export default function verifyPlantDate(
     water_next_time = format(addDays(today, days_to_water), 'dd/MM/yyyy');
   }
 
-  if (format(created_day, 'dd/MM/yyyy') === format(today, 'dd/MM/yyyy'))
+  if (
+    format(created_day, 'dd/MM/yyyy') === format(today, 'dd/MM/yyyy') ||
+    format(updated_day, 'dd/MM/yyyy') === format(today, 'dd/MM/yyyy')
+  )
     water_last_time = 'None';
 
   return {

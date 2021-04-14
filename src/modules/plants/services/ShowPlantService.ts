@@ -19,8 +19,8 @@ export default class ShowPlantService {
     if (!plant) throw new AppError('This plants does not exists!', 400);
 
     const { water_last_time, water_next_time } = verifyPlantDate(
-      plant.water_day,
       plant.created_at,
+      plant.updated_at,
       plant.days_to_water,
     );
 
