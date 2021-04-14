@@ -5,6 +5,7 @@ yarn.lock
 http
 coverage
 .env
+dist/
 !src/**/http
 temp/*
 !temp/.gitkeep
