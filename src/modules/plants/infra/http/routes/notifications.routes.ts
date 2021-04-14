@@ -19,10 +19,4 @@ plantNotificationsRouter.put(
   plantNotificationsController.update,
 );
 
-plantNotificationsRouter.delete(
-  '/',
-  ensureAuthenticated,
-  plantNotificationsController.delete,
-);
-
 export default plantNotificationsRouter;

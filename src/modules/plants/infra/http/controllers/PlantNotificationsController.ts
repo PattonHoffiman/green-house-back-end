@@ -2,7 +2,6 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import CheckWaterDateService from '@modules/plants/services/CheckWaterDateService';
-import DeleteNotificationService from '@modules/notifications/services/DeleteNotificationService';
 import UpdateNotificationService from '@modules/notifications/services/UpdateNotificationService';
 
 export default class PlantNotificationsController {
@@ -22,15 +21,6 @@ export default class PlantNotificationsController {
     const updateNotification = container.resolve(UpdateNotificationService);
 
     await updateNotification.execute(id);
-
-    return res.status(204).send();
-  }
-
-  public async delete(req: Request, res: Response): Promise<Response> {
-    const { id: recipient_id } = req.user;
-    const deleteNotification = container.resolve(DeleteNotificationService);
-
-    await deleteNotification.execute(recipient_id);
 
     return res.status(204).send();
   }

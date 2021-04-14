@@ -14,8 +14,8 @@ export default class SessionsController {
     const deleteNotifications = container.resolve(DeleteNotificationService);
 
     const { user, token } = await authenticateUser.execute({ email, password });
-    await verifyWaterDayDate.execute(user.id);
     await deleteNotifications.execute(user.id);
+    await verifyWaterDayDate.execute(user.id);
 
     return res.status(200).send({
       token,
