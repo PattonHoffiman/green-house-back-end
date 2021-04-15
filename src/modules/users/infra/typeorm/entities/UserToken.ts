@@ -25,6 +25,6 @@ export default class UserToken {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column('enum')
+  @Column('')
   type: 'confirm' | 'retrieve';
 }

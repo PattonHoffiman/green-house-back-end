@@ -7,8 +7,7 @@ export default class AddNewColumnToUserTokensTable1614197926888
       'user_tokens',
       new TableColumn({
         name: 'type',
-        type: 'enum',
-        enum: ['confirm', 'retrieve'],
+        type: 'varchar',
       }),
     );
   }
