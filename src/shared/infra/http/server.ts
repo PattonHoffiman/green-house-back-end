@@ -24,6 +24,6 @@ app.use(routes);
 app.use(errors);
 app.use(globalException);
 
-app.listen(3333, () => {
+app.listen(process.env.PORT || 3333, () => {
   console.log('Server Started on Port: 3333');
 });
