@@ -4,9 +4,9 @@
     "name": "default",
     "type": "postgres",
     "host": "localhost",
-    "password": "your-password",
     "username": "your-username",
     "database": "your-database",
+    "password": "your-password",
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
     ],
@@ -23,7 +23,9 @@
     "name": "mongo",
     "type": "mongodb",
     "host": "localhost",
+    "username": "your-username",
     "database": "your-database",
+    "password": "your-password",
     "useUnifiedTopology": true,
     "entities": [
       "./src/modules/**/infra/typeorm/schemas/*.ts"
