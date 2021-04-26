@@ -10,7 +10,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      ~/green-house/back-end
       - name: Setup Node.js environment~/green-house/back-end
         uses: actions/setup-node@v2.1.5
         with:
@@ -29,6 +28,6 @@ jobs:
           username: ${{secrets.SSH_USER}}
           port: ${{secrets.SSH_PORT}}
           key: ${{secrets.SSH_KEY}}
-          source: "., !node_modules"          
+          source: ".,!node_modules"
           target: "~/green-house/back-end"
           
